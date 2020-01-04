@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { Card } from "./Card";
+import { shuffle } from "./helper";
 
 // card actions
 export const CARD_CLICKED: string = "CARD_CLICKED";
@@ -32,7 +32,7 @@ interface State {
 }
 
 const initialState: State = {
-  cards: Card.shuffle([...cardSet]),
+  cards: shuffle(cardSet),
   currentCard: []
 };
 
@@ -40,6 +40,7 @@ const initialState: State = {
 export function cardReducer(state: any = initialState, action: any) {
   switch (action.type) {
     case CARD_CLICKED:
+      console.log("yeah");
       const newState: State = { ...state };
       if (state.currentCard.length === 0) {
         newState.currentCard.push(action.cardID);
