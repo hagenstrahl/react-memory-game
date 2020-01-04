@@ -2,6 +2,17 @@
   text-align: center;
 }
 
-.test {
+.card {
+  width: 100px;
+  margin: 10px auto;
+}
+
+.show {
   color: red;
+  background-color: white;
+}
+
+.hide {
+  color: black;
+  background-color: black;
 }
