@@ -1,6 +1,3 @@
-// card actions
-export const OPEN_CARD: string = "OPEN_CARD";
-
 // card states
 export const CARD_OPEN = "open";
 export const CARD_CLOSED = "closed";
@@ -61,13 +58,9 @@ const countCardsWithState = (cards: Card[], state: string): number => {
   return counter;
 };
 
-export const countOpenedCards = (cards: Card[]): number => {
-  return countCardsWithState(cards, CARD_OPEN);
-};
+export const countOpenedCards = (cards: Card[]): number => countCardsWithState(cards, CARD_OPEN)
 
-export const countMatchedCards = (cards: Card[]): number => {
-  return countCardsWithState(cards, CARD_MATCHED);
-};
+export const countMatchedCards = (cards: Card[]): number => countCardsWithState(cards, CARD_MATCHED)
 
 export const openCard = (cards: Card[], id: number): Card[] => {
   let newCards: Card[] = [...cards];
