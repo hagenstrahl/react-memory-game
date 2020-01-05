@@ -2,17 +2,23 @@
   text-align: center;
 }
 
-.card {
+.Card {
   width: 100px;
   margin: 10px auto;
 }
 
-.show {
+.open {
   color: red;
   background-color: white;
 }
 
-.hide {
+.closed {
   color: black;
   background-color: black;
+}
+
+.matched {
+  color: green;
+  background-color: white;
+  pointer-events: none;
 }

@@ -1,50 +1,58 @@
 import { createStore } from "redux";
-import { shuffle } from "./helper";
-
-// card actions
-export const CARD_CLICKED: string = "CARD_CLICKED";
+import {
+  prepareCardSet,
+  Card,
+  OPEN_CARD,
+  countOpenedCards,
+  countMatchedCards,
+  openCard,
+  matchCards,
+  closeOpenedCars
+} from "./helper";
 
 export const clickCard = (id: number) => {
   return {
-    type: CARD_CLICKED,
+    type: OPEN_CARD,
     cardID: id
   };
 };
 
-// card set
-const cardSet: string[] = [
-  "cat",
-  "cat",
-  "dog",
-  "dog",
-  "mouse",
-  "mouse",
-  "squirrel",
-  "squirrel",
-  "snake",
-  "snake"
-];
-
 // state
-interface State {
-  cards: string[];
-  currentCard: number[];
+export interface State {
+  cards: Card[];
+  isWon: boolean;
 }
 
 const initialState: State = {
-  cards: shuffle(cardSet),
-  currentCard: []
+  cards: prepareCardSet(),
+  isWon: false
 };
 
 // reducer
-export function cardReducer(state: any = initialState, action: any) {
+export function cardReducer(state: State = initialState, action: any) {
   switch (action.type) {
-    case CARD_CLICKED:
-      console.log("yeah");
+    case OPEN_CARD:
       const newState: State = { ...state };
-      if (state.currentCard.length === 0) {
-        newState.currentCard.push(action.cardID);
+      let countOpenCards: number = countOpenedCards(newState.cards);
+
+      // check for opened and not matched cards
+      if (countOpenCards === 2) {
+        newState.cards = closeOpenedCars(newState.cards);
+        countOpenCards = 0;
       }
+
+      // open new card
+      newState.cards = openCard(newState.cards, action.cardID);
+      countOpenCards++;
+      if (countOpenCards === 2) {
+        newState.cards = matchCards(newState.cards);
+      }
+
+      // check for game won
+      if (countMatchedCards(newState.cards) === newState.cards.length) {
+        newState.isWon = true;
+      }
+
       return newState;
   }
   return state;

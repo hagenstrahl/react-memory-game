@@ -1,47 +1,50 @@
 import React from "react";
 import "./App.css";
-import { clickCard } from "./redux";
+import { clickCard, State } from "./redux";
 import { connect } from "react-redux";
+import { Card } from "./helper";
 
 interface CardProps {
   value: string;
+  state: string;
   index: number;
   clickCard: (id: number) => any;
 }
 
-const Card = (props: CardProps) => {
+const CardComponent = (props: CardProps) => {
   return (
     <div className="Card">
-      <div className="card hide" onClick={() => props.clickCard(props.index)}>
+      <div className={props.state} onClick={() => props.clickCard(props.index)}>
         {props.value}
       </div>
     </div>
   );
 };
 
-const mapStateToPropsCard = (store: any) => {
-  return {
-    //TODO class list
-  };
-};
-
-const CardContainer = connect(mapStateToPropsCard, { clickCard })(Card);
+const CardContainer = connect(null, { clickCard })(CardComponent);
 
 interface BoardProps {
-  cards: string[];
+  cards: Card[];
 }
 
 const Board = (props: BoardProps) => {
   return (
     <div className="Board">
-      {props.cards.map((value: string, index: number) => {
-        return <CardContainer value={value} index={index} />;
+      {props.cards.map((card: Card, index: number) => {
+        return (
+          <CardContainer
+            key={index}
+            value={card.value}
+            state={card.state}
+            index={index}
+          />
+        );
       })}
     </div>
   );
 };
 
-const mapStateToPropsBoard = (state: any): BoardProps => {
+const mapStateToPropsBoard = (state: State): BoardProps => {
   return {
     cards: state.cards
   };
@@ -49,13 +52,26 @@ const mapStateToPropsBoard = (state: any): BoardProps => {
 
 const BoardContainer = connect(mapStateToPropsBoard)(Board);
 
-const App = () => {
+interface AppProps {
+  isWon: boolean;
+}
+
+const App = (props: AppProps) => {
   return (
     <div className="App">
       <h1>Memory Game</h1>
       <BoardContainer />
+      <p>{props.isWon ? "You are a winner" : ""}</p>
     </div>
   );
 };
 
-export default App;
+const mapStateToPropsForApp = (state: State): AppProps => {
+  return {
+    isWon: state.isWon
+  };
+};
+
+const AppContainer = connect(mapStateToPropsForApp)(App);
+
+export default AppContainer;
