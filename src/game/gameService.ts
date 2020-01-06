@@ -5,16 +5,22 @@ export const CARD_MATCHED = "matched";
 
 // card set
 const cardSet: string[] = [
-  "cat",
-  "cat",
+  "frog",
+  "frog",
+  "fish",
+  "fish",
   "dog",
   "dog",
-  "mouse",
-  "mouse",
-  "squirrel",
-  "squirrel",
-  "snake",
-  "snake"
+  "cat",
+  "cat",
+  "crow",
+  "crow",
+  "horse",
+  "horse",
+  "kiwi-bird",
+  "kiwi-bird",
+  "spider",
+  "spider"
 ];
 
 export interface Card {
@@ -48,19 +54,14 @@ export const prepareCardSet = (): Card[] => {
   });
 };
 
-const countCardsWithState = (cards: Card[], state: string): number => {
-  let counter = 0;
-  for (const card of cards) {
-    if (card.state === state) {
-      counter++;
-    }
-  }
-  return counter;
-};
+const countCardsWithState = (cards: Card[], state: string): number =>
+  cards.filter(card => card.state === state).length;
 
-export const countOpenedCards = (cards: Card[]): number => countCardsWithState(cards, CARD_OPEN)
+export const countOpenedCards = (cards: Card[]): number =>
+  countCardsWithState(cards, CARD_OPEN);
 
-export const countMatchedCards = (cards: Card[]): number => countCardsWithState(cards, CARD_MATCHED)
+export const countMatchedCards = (cards: Card[]): number =>
+  countCardsWithState(cards, CARD_MATCHED);
 
 export const openCard = (cards: Card[], id: number): Card[] => {
   let newCards: Card[] = [...cards];
@@ -69,30 +70,22 @@ export const openCard = (cards: Card[], id: number): Card[] => {
 };
 
 export const matchCards = (cards: Card[]): Card[] => {
-  let newCards: Card[] = [...cards];
-  let firstCard: number = -1;
-  for (const card of newCards) {
-    if (card.state === CARD_OPEN) {
-      if (firstCard === -1) {
-        firstCard = newCards.indexOf(card);
-      } else if (newCards[firstCard].value === card.value) {
-        newCards[firstCard].state = CARD_MATCHED;
-        card.state = CARD_MATCHED;
-      }
-    }
-  }
-
-  return newCards;
+  const openCards = cards.filter(card => card.state === CARD_OPEN);
+  if (
+    openCards.filter(card => card.value === openCards[0].value).length ===
+    openCards.length
+  )
+    return cards.map(card => {
+      if (card.state === CARD_OPEN) card.state = CARD_MATCHED;
+      return card;
+    });
+  return cards;
 };
 
-export const closeOpenedCars = (cards: Card[]): Card[] => {
-  let newCards = [...cards];
-
-  for (const card of newCards) {
+export const closeOpenedCars = (cards: Card[]): Card[] =>
+  cards.map(card => {
     if (card.state === CARD_OPEN) {
       card.state = CARD_CLOSED;
     }
-  }
-
-  return newCards;
-};
+    return card;
+  });

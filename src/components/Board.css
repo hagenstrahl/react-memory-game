@@ -1,0 +1,16 @@
+.Board {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: blue;
+  margin: 10px auto;
+  justify-content: space-evenly;
+  max-width: 480px;
+  padding: 30px;
+  background: rgb(141, 237, 247);
+  background: linear-gradient(
+    90deg,
+    rgba(141, 237, 247, 1) 0%,
+    rgba(0, 176, 255, 1) 100%
+  );
+  border-radius: 30px;
+}

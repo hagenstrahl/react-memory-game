@@ -1,0 +1,33 @@
+.Card {
+  height: 50px;
+  width: 50px;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.open {
+  color: rgba(0, 176, 255);
+  background-color: white;
+  font-size: 33px;
+}
+
+.closed {
+  background: rgb(84, 84, 84);
+  background: linear-gradient(
+    166deg,
+    rgba(84, 84, 84, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.closed i {
+  font-size: 0;
+}
+
+.matched {
+  color: white;
+  font-size: 33px;
+  background-color: rgb(122, 235, 122);
+  pointer-events: none;
+}
